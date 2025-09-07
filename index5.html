@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <title>Exercice 5</title>
+  </head>
+  <body>
+    <a href="index.html" style="
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 9999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+">⬅ Retour accueil</a>
+
+    <a-scene embedded arjs>
+      <a-marker type="pattern" url="pattern-creeper.patt">    
+        <a-sphere position="0 0.5 0"
+                   radius="0.25"
+                   color="green"
+                   opacity="0.5">
+        </a-sphere>
+      </a-marker>
+    </a-scene>
+    </body> 
+</html> 

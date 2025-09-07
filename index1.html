@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+    <title>Exercice 1</title>
+  </head>
+  <body>
+    <a href="index.html" style="
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 9999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+">⬅ Retour accueil</a>
+
+    <a-scene embedded arjs>
+      <a-box position="-1 2 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-box position="0 2 -5" rotation="0 45 0" color="#EF2D5E"></a-box>
+      <a-box position="1 2 -3" rotation="0 45 0" color="#FFC65D"></a-box>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-entity camera look-controls="pointerLockEnabled: true" position="0 3 7"></a-entity>
+    </a-scene>
+  </body>
+</html>

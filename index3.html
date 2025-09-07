@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+    <title>Exercice 3</title>
+  </head>
+  <body>
+    <a href="index.html" style="
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 9999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+">⬅ Retour accueil</a>
+
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-box id="myBox"
+               class="clickable"
+               position="0 1 0"
+               rotation="0 0 0"
+               scale="0.5 0.5 0.5"
+               color="pink"
+               opacity="0.5">
+        </a-box>
+      </a-marker>
+
+      <a-entity camera>
+        <a-cursor fuse="false"
+                  raycaster="objects: .clickable"
+                  material="color: white; shader: flat">
+        </a-cursor>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      // Composant de rotation stable (pas d'empilement d'animations)
+      AFRAME.registerComponent('spin', {
+        schema: { speed: {type: 'number', default: 36} }, // degrés/seconde (36°/s = 10s pour 360°)
+        init: function () {
+          this.boostTimeout = null;
+        },
+        tick: function (time, timeDelta) {
+          // Incrémente la rotation en radians à partir de la vitesse en °/s
+          const deltaRad = THREE.MathUtils.degToRad(this.data.speed * (timeDelta / 1000));
+          this.el.object3D.rotation.y += deltaRad;
+        },
+        // Utilitaire pour changer proprement la vitesse
+        setSpeed: function (s) { this.data.speed = s; },
+        // Utilitaire pour gérer le timer de boost
+        setBoost: function (fast, base, ms) {
+          this.setSpeed(fast);
+          if (this.boostTimeout) clearTimeout(this.boostTimeout);
+          this.boostTimeout = setTimeout(() => this.setSpeed(base), ms);
+        }
+      });
+
+      const colors = ["pink", "blue", "yellow", "green", "red", "orange", "cyan", "purple"];
+      const box = document.querySelector("#myBox");
+
+      const BASE_SPEED = 36;   // 10s par tour
+      const FAST_SPEED = 360;  // 1s par tour
+      const BOOST_MS   = 1000; // durée du boost
+
+      // Rotation de base (stable)
+      box.setAttribute('spin', `speed: ${BASE_SPEED}`);
+
+      // Interaction : couleur + pulse d'échelle + boost de vitesse
+      box.addEventListener("click", () => {
+        // Couleur aléatoire
+        const newColor = colors[Math.floor(Math.random() * colors.length)];
+        box.setAttribute("color", newColor);
+
+        // Pulse d'échelle (on reset avant de la rejouer)
+        box.removeAttribute("animation__scale");
+        box.setAttribute("animation__scale",
+          "property: scale; to: 0.8 0.8 0.8; dur: 500; dir: alternate; loop: 2");
+
+        // Boost de rotation TEMPORAIRE, puis retour à la base
+        const spin = box.components.spin;
+        if (spin) spin.setBoost(FAST_SPEED, BASE_SPEED, BOOST_MS);
+      });
+    </script>
+  </body>
+</html>

@@ -1,349 +1,77 @@
-<!-- Exercice 1
-<html>
-  <head>
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-  </head>
-  <body>
-    <a-scene embedded arjs>
-      <a-box position="-1 2 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-box position="0 2 -5" rotation="0 45 0" color="#EF2D5E"></a-box>
-      <a-box position="1 2 -3" rotation="0 45 0" color="#FFC65D"></a-box>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-entity camera look-controls="pointerLockEnabled: true" position="0 3 7"></a-entity>
-    </a-scene>
-  </body>
-</html>
--->
-<!-- Exercice 2 et 3
-<html>
-  <head>
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
-  </head>
-  <body>
-    <a-scene embedded arjs>
-      <a-marker preset="hiro">
-        <a-box id="myBox"
-               class="clickable"
-               position="0 1 0"
-               rotation="0 0 0"
-               scale="0.5 0.5 0.5"
-               color="pink"
-               opacity="0.5">
-        </a-box>
-      </a-marker>
-
-      <a-entity camera>
-        <a-cursor fuse="false"
-                  raycaster="objects: .clickable"
-                  material="color: white; shader: flat">
-        </a-cursor>
-      </a-entity>
-    </a-scene>
-
-    <script>
-      // Composant de rotation stable (pas d'empilement d'animations)
-      AFRAME.registerComponent('spin', {
-        schema: { speed: {type: 'number', default: 36} }, // degrés/seconde (36°/s = 10s pour 360°)
-        init: function () {
-          this.boostTimeout = null;
-        },
-        tick: function (time, timeDelta) {
-          // Incrémente la rotation en radians à partir de la vitesse en °/s
-          const deltaRad = THREE.MathUtils.degToRad(this.data.speed * (timeDelta / 1000));
-          this.el.object3D.rotation.y += deltaRad;
-        },
-        // Utilitaire pour changer proprement la vitesse
-        setSpeed: function (s) { this.data.speed = s; },
-        // Utilitaire pour gérer le timer de boost
-        setBoost: function (fast, base, ms) {
-          this.setSpeed(fast);
-          if (this.boostTimeout) clearTimeout(this.boostTimeout);
-          this.boostTimeout = setTimeout(() => this.setSpeed(base), ms);
-        }
-      });
-
-      const colors = ["pink", "blue", "yellow", "green", "red", "orange", "cyan", "purple"];
-      const box = document.querySelector("#myBox");
-
-      const BASE_SPEED = 36;   // 10s par tour
-      const FAST_SPEED = 360;  // 1s par tour
-      const BOOST_MS   = 1000; // durée du boost
-
-      // Rotation de base (stable)
-      box.setAttribute('spin', `speed: ${BASE_SPEED}`);
-
-      // Interaction : couleur + pulse d'échelle + boost de vitesse
-      box.addEventListener("click", () => {
-        // Couleur aléatoire
-        const newColor = colors[Math.floor(Math.random() * colors.length)];
-        box.setAttribute("color", newColor);
-
-        // Pulse d'échelle (on reset avant de la rejouer)
-        box.removeAttribute("animation__scale");
-        box.setAttribute("animation__scale",
-          "property: scale; to: 0.8 0.8 0.8; dur: 500; dir: alternate; loop: 2");
-
-        // Boost de rotation TEMPORAIRE, puis retour à la base
-        const spin = box.components.spin;
-        if (spin) spin.setBoost(FAST_SPEED, BASE_SPEED, BOOST_MS);
-      });
-    </script>
-  </body>
-</html>
--->
-<!-- Exercice 4
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-  </head>
-  <body>
-    <a-scene embedded arjs>
-      <a-marker type="pattern" url="pattern-creeper.patt">    
-        <a-sphere position="0 0.5 0"
-                   radius="0.25"
-                   color="green"
-                   opacity="0.5">
-        </a-sphere>
-      </a-marker>
-    </a-scene>
-    </body> 
-</html> 
--->
-<!-- Exercice 5 
- <html>
-  <head>
-    <meta charset="UTF-8">
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-  </head>
-  <body>
-    <a-scene embedded arjs>
-      <a-marker type="pattern" url="pattern-creeper.patt">    
-        <a-sphere position="0 0.5 0"
-                   radius="0.25"
-                   color="green"
-                   opacity="0.5">
-        </a-sphere>
-      </a-marker>
-    </a-scene>
-    </body> 
-</html> 
--->
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Exo6</title>
+<head>
+  <meta charset="utf-8">
+  <title>Accueil TP02</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+    }
 
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-        background: #000;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      }
+    h1 {
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 2rem;
+    }
 
-      #arjs-video {
-        position: fixed !important;
-        top: 0; left: 0;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover;
-        z-index: 0 !important;
-        pointer-events: none !important;
-      }
-      .a-canvas {
-        position: fixed !important;
-        top: 0; left: 0;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 1 !important;
-        pointer-events: none !important;
-      }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+    }
 
-      #ui {
-        position: fixed;
-        left: 50%;
-        bottom: 20px;
-        transform: translateX(-50%);
-        z-index: 9999;
-        pointer-events: auto;
-        background: rgba(255, 255, 255, 0.92);
-        box-shadow: 0 8px 30px rgba(0,0,0,.25);
-        backdrop-filter: blur(6px);
-        border-radius: 14px;
-        padding: 14px 16px;
-        display: none;
-        min-width: 260px;
-      }
+    a {
+      display: block;
+      text-decoration: none;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.1rem;
+      color: white;
+      transition: background 0.3s, transform 0.2s;
+    }
 
-      #ui h3 {
-        margin: 0 0 8px 0;
-        font-size: 16px;
-        font-weight: 600;
-        text-align: center;
-      }
+    a:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-4px);
+    }
 
-      .row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 10px 0;
-      }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>TP02 : WebAR</h1>
 
-      .grow {
-        flex: 1 1 auto;
-      }
+  <div class="container">
+    <a href="index1.html">Exercice 1</a>
+    <a href="index2.html">Exercice 2</a>
+    <a href="index3.html">Exercice 3</a>
+    <a href="index4.html">Exercice 4</a>
+    <a href="index5.html">Exercice 5</a>
+    <a href="index6.html">Exercice 6</a>
+  </div>
 
-      #sizeLabel {
-        width: 44px;
-        text-align: right;
-        font-variant-numeric: tabular-nums;
-      }
-      input[type="range"] {
-        width: 100%;
-      }
-
-      .swatches {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-      }
-      .swatch {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        border: 2px solid transparent;
-        outline: none;
-        cursor: pointer;
-      }
-      .swatch[data-color="red"]   { background: #e53935; }
-      .swatch[data-color="green"] { background: #43a047; }
-      .swatch[data-color="blue"]  { background: #1e88e5; }
-
-      .swatch.active {
-        border-color: #111;
-        box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px #111;
-      }
-
-      #status {
-        position: fixed;
-        top: 10px; left: 50%;
-        transform: translateX(-50%);
-        z-index: 9999;
-        background: rgba(0,0,0,.6);
-        color: #fff;
-        padding: 6px 10px;
-        border-radius: 10px;
-        font-size: 12px;
-        letter-spacing: .2px;
-        display: none;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="status">Marqueur perdu…</div>
-    <div id="ui" aria-live="polite">
-      <h3>Contrôles de la boîte</h3>
-
-      <div class="row">
-        <span>Taille</span>
-        <input
-          id="sizeSlider"
-          class="grow"
-          type="range"
-          min="0.10" max="3.00" step="0.05" value="0.50"
-          aria-label="Taille de la boîte (0.1 à 3.0)"
-        />
-        <span id="sizeLabel">0.50</span>
-      </div>
-
-      <div class="row" style="justify-content:center">
-        <div class="swatches" role="group" aria-label="Choisir une couleur">
-          <button class="swatch active"  data-color="red"   aria-pressed="true"  title="Rouge"></button>
-          <button class="swatch"         data-color="green" aria-pressed="false" title="Vert"></button>
-          <button class="swatch"         data-color="blue"  aria-pressed="false" title="Bleu"></button>
-        </div>
-      </div>
-    </div>
-
-    <a-scene
-      embedded
-      vr-mode-ui="enabled: false"
-      renderer="antialias: true"
-      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-    >
-      <a-marker preset="hiro" id="hiroMarker">
-        <a-box id="myBox"
-               position="0 0.5 0"
-               rotation="0 0 0"
-               scale="0.5 0.5 0.5"
-               color="red"
-               opacity="0.9">
-        </a-box>
-      </a-marker>
-
-      <a-entity camera></a-entity>
-    </a-scene>
-
-    <script>
-      const ui      = document.getElementById('ui');
-      const status  = document.getElementById('status');
-      const slider  = document.getElementById('sizeSlider');
-      const sizeLbl = document.getElementById('sizeLabel');
-      const marker  = document.getElementById('hiroMarker');
-      const box     = document.getElementById('myBox');
-      const swatches = Array.from(document.querySelectorAll('.swatch'));
-
-      function showUI(show) {
-        ui.style.display = show ? 'block' : 'none';
-        status.style.display = show ? 'none' : 'block';
-        status.textContent = show ? '' : 'Marqueur perdu…';
-      }
-
-      marker.addEventListener('markerFound', () => {
-        showUI(true);
-      });
-
-      marker.addEventListener('markerLost', () => {
-        showUI(false);
-      });
-
-      showUI(false);
-
-      function updateScale(value) {
-        const v = parseFloat(value).toFixed(2);
-        sizeLbl.textContent = v;
-        box.setAttribute('scale', `${v} ${v} ${v}`);
-      }
-      slider.addEventListener('input', (e) => updateScale(e.target.value));
-      updateScale(slider.value);
-
-      function setColor(c) {
-        box.setAttribute('color', c);
-        swatches.forEach(b => {
-          const active = b.dataset.color === c;
-          b.classList.toggle('active', active);
-          b.setAttribute('aria-pressed', active ? 'true' : 'false');
-        });
-      }
-      swatches.forEach(btn => {
-        btn.addEventListener('click', () => setColor(btn.dataset.color));
-      });
-      setColor('red');
-
-      document.addEventListener('gesturestart', e => e.preventDefault());
-    </script>
-  </body>
+  <footer>
+    Benjamin JOANNARD 20221079
+  </footer>
+</body>
 </html>

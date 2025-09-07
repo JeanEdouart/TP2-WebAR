@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+    <title>Exercice 2</title>
+  </head>
+  <body>
+    <a href="index.html" style="
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: rgba(255,255,255,0.9);
+        color: #000;
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-weight: bold;
+        z-index: 9999;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        ">⬅ Retour accueil
+    </a>
+    <a-scene embedded arjs>
+        <a-marker preset="hiro">
+            <a-box
+                position="0 1 0"
+                rotation="0 0 0"
+                scale="0.5 0.5 0.5"
+                color="pink"
+                opacity="0.5"
+                animation ="property: rotation; to: 0 360 0; loop: true; dur: 10000;">
+            </a-box>
+        </a-marker>
+    </a-scene>
+  </body>
+</html>
